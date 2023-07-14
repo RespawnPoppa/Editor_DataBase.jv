@@ -1,0 +1,73 @@
+DROP DATABASE IF EXISTS sqlcompiler;
+CREATE DATABASE IF NOT EXISTS sqlcompiler;
+USE sqlcompiler;
+
+CREATE TABLE IF NOT EXISTS platform (
+  id_platform INTEGER AUTO_INCREMENT,
+  platform VARCHAR(100) UNIQUE NOT NULL,
+  release_year INTEGER NOT NULL,
+-- other
+CONSTRAINT pk_platform PRIMARY KEY (id_platform)
+);
+
+CREATE TABLE IF NOT EXISTS user (
+  id_user INTEGER AUTO_INCREMENT,
+  platform_id INTEGER,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  -- other
+  CONSTRAINT pk_user PRIMARY KEY (id_user),
+  CONSTRAINT FOREIGN KEY (platform_id)
+REFERENCES platform (id_platform)
+);
+
+INSERT INTO platform (platform, release_year) VALUES
+  ('PC', 1981),
+  ('PlayStation', 1994),
+  ('Xbox', 2001),
+  ('Nintendo Switch', 2017),
+  ('Mobile', 2000);
+
+INSERT INTO user (name, email, password, platform_id) VALUES
+  ("John Smith", "john@gmail.com", "password", 1),
+  ("Janet Smith", "jane@gmail.com", "password", 2),
+  ("Bob Sagget", "bob@gmail.com", "password", 3),
+  ("Alicia Key", "alice@gmail.com", "password", 4),
+  ("Michael Jordan", "mike@gmail.com", "password", 5);
+
+#test
+
+INSERT INTO platform (platform, release_year) VALUES
+  ('test1', 1981),
+  ('test2', 1994),
+  ('test3', 2001),
+  ('test4', 2017),
+  ('test5', 1981),
+  ('test6', 1994),
+  ('test7', 2001),
+  ('test8', 2017),
+  ('test9', 2000)
+  ;
+-- test
+SELECT * FROM platform;
+SELECT * FROM user;
+
+#INSERT INTO platform (platform, release_year) VALUES ("test10", 2000);
+#UPDATE user SET name = 'UPDATETEST1' WHERE id_user = 1;
+#DELETE FROM user WHERE id_user = 1;
+
+/*
+SELECT COUNT(*) FROM user;
+
+SELECT COUNT(name) FROM  user;
+SELECT SUM(release_year) FROM  platform;
+SELECT AVG(release_year) FROM  platform;
+SELECT MAX(name) FROM  user;
+
+SELECT COUNT(DISTINCT name) FROM user;
+SELECT SUM(DISTINCT release_year) FROM  platform;
+SELECT AVG(DISTINCT release_year) FROM  platform;
+SELECT MAX(DISTINCT name) FROM  user;
+*/
+
